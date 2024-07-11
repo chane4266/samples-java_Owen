@@ -21,4 +21,4 @@ script:
 notifications:
   email:
     recipients:
-      - "gta3gta2@gmail.com"
+      - none
