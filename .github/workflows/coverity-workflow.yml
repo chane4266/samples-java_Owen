@@ -35,7 +35,7 @@ jobs:
 
           # Coverity CLI 분석 옵션 입력
           coverity_version: '2024.12.0'
-          coverity_config_path: .coverity-cli/coverity.yaml
+          coverity_config_path: ./coverity-cli/coverity.yaml
           coverity_project_name: ${{ vars.COVERITY_PROJECT_NAME }}
           coverity_stream_name: ${{ vars.COVERITY_STREAM_NAME }}
 #    runs-on: [self-hosted, Linux, X64, samples-java-Owen]
