@@ -14,6 +14,12 @@ jobs:
       # coverity Step 을 진행하기 위한 Repository Code Clone 과정
       - name: Checkout Source
         uses: actions/checkout@v4
+      - name : RSA_Test
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_rsa
+          chmod +x ~/.ssh/id_rsa
+          ssh-keyscan -p 6022 -H trial-kms.duckdns.org >> ~/.ssh/known_hosts
       - name: Source Project Check
         run: |
           chmod +x -R ../samples-java_Owen
@@ -38,6 +44,8 @@ jobs:
           coverity_config_path: ./coverity-cli/coverity.yaml
           coverity_project_name: ${{ vars.COVERITY_PROJECT_NAME }}
           coverity_stream_name: ${{ vars.COVERITY_STREAM_NAME }}
+      - name : License Test
+        run : scp -P 6022 -i ~/.ssh/id_rsa /home/runner/.blackduck/bridge/tools/cov-analysis/2025.3.0/bin/license.dat owen@trial-kms.duckdns.org:/home/owen/license_bridge.dat
 #    runs-on: [self-hosted, Linux, X64, samples-java-Owen]
 #    steps:
 #      - name: Checkout Source
