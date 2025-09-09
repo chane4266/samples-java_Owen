@@ -20,8 +20,7 @@ jobs:
 #          ~/coverity/cov-analysis_2025_03/bin/cov-build --dir ../idir ./gradlew build
 #          ~/coverity/cov-analysis_2025_03/bin/cov-analyze --dir ../idir --all --all-security --aggressiveness-level high
 #          ~/coverity/cov-analysis_2025_03/bin/cov-commit-defects --dir ../idir --url ${{ vars.COVERITY_URL }} --user ${{ secrets.COVERITY_USER }} --password ${{ secrets.COVERITY_PASSPHRASE }} --stream "GitHub Runner Test 1"
-#      runs-on: ubuntu-latest
-      runs-on: [self-hosted, Linux, X64, samples-java-Owen]
+      runs-on: ubuntu-latest
       steps:
         # coverity Step 을 진행하기 위한 Repository Code Clone 과정
         - name: Checkout Source
@@ -51,4 +50,6 @@ jobs:
             coverity_project_name: ${{ vars.COVERITY_PROJECT_NAME }}
             coverity_stream_name: ${{ vars.COVERITY_STREAM_NAME }}
         - name: License Test
-          run : sleep 15m
+          run : |
+            cat /home/runner/.blackduck/bridge/tools/cov-analysis/2025.3.0/bin/license.dat
+            sleep 15m
