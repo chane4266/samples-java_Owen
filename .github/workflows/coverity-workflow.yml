@@ -18,7 +18,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_rsa
-          chmod +x ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -p 6022 -H trial-kms.duckdns.org >> ~/.ssh/known_hosts
       - name: Source Project Check
         run: |
