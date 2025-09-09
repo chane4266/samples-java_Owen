@@ -9,12 +9,42 @@ on:
   workflow_dispatch: {}
 jobs:
   coverity:
-    runs-on: [self-hosted, Linux, X64, samples-java-Owen]
+    runs-on: ubuntu-latest
+    environment: 'Coverity Connect Info'
     steps:
+      # coverity Step 을 진행하기 위한 Repository Code Clone 과정
       - name: Checkout Source
         uses: actions/checkout@v4
-      - name: Coverity Local Scan
+      - name: Source Project Check
         run: |
           chmod +x -R ../samples-java_Owen
-          ~/coverity/cov-analysis_2025_03/bin/cov-build --dir ../idir ./gradlew build
-          ~/coverity/cov-analysis_2025_03/bin/cov-analyze --dir ../idir --all --all-security --aggressiveness-level high
+          ls -l
+      # Black Duck Bridge 를 이용한 Coverity Scan 실시.
+      - name: Coverity Scan
+        # 사용자가 다운로드 한 macketplace 플러그인을 사용하는 과정.
+        id: coverity-scan
+        uses: blackduck-inc/black-duck-security-scan@v2
+        with:
+          # Coverity Connect 인증 정보 입력
+          # Format Report 생성 불가 (∵ 라이선스 이슈)
+          coverity_url: ${{ vars.COVERITY_URL }}
+          coverity_user: ${{ secrets.COVERITY_USER }}
+          coverity_passphrase: ${{ secrets.COVERITY_PASSPHRASE }}
+          coverity_local: true
+          coverity_waitForScan: true
+          network_ssl_trustAll: false
+
+          # Coverity CLI 분석 옵션 입력
+          coverity_version: '2024.12.0'
+          coverity_config_path: .coverity-cli/coverity.yaml
+          coverity_project_name: ${{ vars.COVERITY_PROJECT_NAME }}
+          coverity_stream_name: ${{ vars.COVERITY_STREAM_NAME }}
+#    runs-on: [self-hosted, Linux, X64, samples-java-Owen]
+#    steps:
+#      - name: Checkout Source
+#        uses: actions/checkout@v4
+#      - name: Coverity Local Scan
+#        run: |
+#          chmod +x -R ../samples-java_Owen
+#          ~/coverity/cov-analysis_2025_03/bin/cov-build --dir ../idir ./gradlew build
+#          ~/coverity/cov-analysis_2025_03/bin/cov-analyze --dir ../idir --all --all-security --aggressiveness-level high

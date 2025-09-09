@@ -1,0 +1,12 @@
+capture:
+  compiler-configuration:
+    cov-configure:
+      - [--java]
+  build:
+    clean-command: ./gradlew clean
+    build-command: ./gradlew build
+
+analyze:
+  checkers:
+    all: true
+    all-security: true
