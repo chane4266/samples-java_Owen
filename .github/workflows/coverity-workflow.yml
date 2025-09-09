@@ -10,7 +10,6 @@ on:
 jobs:
   coverity:
     runs-on: ubuntu-latest
-    environment: 'Coverity Connect Info'
     steps:
       # coverity Step 을 진행하기 위한 Repository Code Clone 과정
       - name: Checkout Source
